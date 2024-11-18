@@ -1,0 +1,15 @@
+[
+    {"source": "宋江", "target": "阎婆惜", "rela": "敌人", "type": "resolved"},
+    {"source": "宋江", "target": "张清", "rela": "敌人", "type": "resolved"},
+    {"source": "宋江", "target": "卢俊义", "rela": "朋友", "type": "resolved"},
+    {"source": "宋江", "target": "李逵", "rela": "朋友", "type": "resolved"},
+    {"source": "宋江", "target": "戴宗", "rela": "朋友", "type": "resolved"},
+    {"source": "卢俊义", "target": "燕青", "rela": "同事", "type": "resolved"},
+    {"source": "卢俊义", "target": "蔡福", "rela": "同事", "type": "resolved"},
+    {"source": "卢俊义", "target": "李逵", "rela": "同事", "type": "resolved"},
+    {"source": "李逵", "target": "秦明", "rela": "朋友", "type": "resolved"},
+    {"source": "李逵", "target": "柴进", "rela": "朋友", "type": "resolved"},
+    {"source": "李逵", "target": "汤隆", "rela": "朋友", "type": "resolved"},
+    {"source": "戴宗", "target": "萧让", "rela": "朋友", "type": "resolved"},
+    {"source": "戴宗", "target": "杨林", "rela": "朋友", "type": "resolved"}
+]

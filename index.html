@@ -1,213 +1,137 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
-<style>.link {  fill: none;  stroke: #666;  stroke-width: 1px;}#licensing {  fill: green;}.link.licensing {  stroke: green;}.link.resolved {  stroke-dasharray: 0,2 1;}circle {  fill: #ccc;  stroke: #333;  stroke-width: 1px;}text {  font: 10px Microsoft YaHei;  pointer-events: none;  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;}.linetext {    font-size: 12px Microsoft YaHei;}</style>
-<body>
-<script src="https://d3js.org/d3.v3.min.js"></script>
-<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
-<script>
-
-const jsonFilesName = ["relation.json"];
-
-function getJsonText(jsonFiles) {
-    return Promise.all(jsonFiles.map(file => fetch(file).then(response => response.json())))
-        .then(data => [].concat(...data));
-}
-
-function jumpUrl(nodeName) {
-    getJsonText(["url.json"]).then(urls => {  // 确保这里传递的是数组
-        for (const urlObj of urls) {
-            if (urlObj.name === nodeName) {
-                window.alert("查看"+ urlObj.name + "的介绍");
-                location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/" + urlObj.url);
-                return; // 找到后返回
+<html>
+<head>
+    <title>水浒传学习成果展示</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            font-family: Arial;
+            margin: 0;
+        }
+        .header {
+            padding: 80px;
+            text-align: center;
+            background: #bcbc1a;
+            color: white;
+        }
+        .header h1 {
+            font-size: 40px;
+        }
+        .navbar {
+            overflow: hidden;
+            background-color: #333;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+        }
+        .navbar a.right {
+            float: right;
+        }
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .row {  
+            display: -ms-flexbox; 
+            display: flex;
+            -ms-flex-wrap: wrap; 
+            flex-wrap: wrap;
+        }
+        .side {
+            -ms-flex: 30%;
+            flex: 30%;
+            background-color: #f1f1f1;
+            padding: 20px;
+        }
+        .main {   
+            -ms-flex: 70%; 
+            flex: 70%;
+            background-color: white;
+            padding: 20px;
+        }
+        .footer {
+            padding: 20px;
+            text-align: center;
+            background: #ddd;
+        }
+        @media screen and (max-width: 700px) {
+            .row {   
+                flex-direction: column;
             }
         }
-        window.alert("暂时没有关于"+ nodeName + "的介绍");
-        console.log("未找到匹配的节点名称:", nodeName);
-    }).catch(error => {
-        console.error("获取 JSON 文件失败:", error);
-    });
-}
-
-getJsonText(jsonFilesName).then(links => {
-    var nodes = {};
-
-    links.forEach(function(link) {
-        link.source = nodes[link.source] || (nodes[link.source] = { name: link.source });
-        link.target = nodes[link.target] || (nodes[link.target] = { name: link.target });
-    });
-    var width = window.innerWidth - 20, height = window.innerHeight - 20;
-    var force = d3.layout.force()
-        .nodes(d3.values(nodes))
-        .links(links)
-        .size([width, height])
-        .linkDistance(100)
-        .charge(-1500)
-        .on("tick", tick)
-        .start();
-
-    var svg = d3.select("body").append("svg")
-        .attr("width", width)
-        .attr("height", height);
-
-    var marker=
-        svg.append("marker")
-        .attr("id", "resolved")
-        .attr("markerUnits","userSpaceOnUse")
-        .attr("viewBox", "0 -5 10 10")
-        .attr("refX",32)
-        .attr("refY", -1)
-        .attr("markerWidth", 12)
-        .attr("markerHeight", 12)
-        .attr("orient", "auto")
-        .attr("stroke-width",2)
-        .append("path")
-        .attr("d", "M0,-5L10,0L0,5")
-        .attr('fill','#000000');
-
-    var edges_line = svg.selectAll(".edgepath")
-        .data(force.links())
-        .enter()
-        .append("path")
-        .attr({
-            'd': function(d) {return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y},
-            'class':'edgepath',
-            'id':function(d,i) {return 'edgepath'+i;}})
-        .style("stroke",function(d){
-            var lineColor;
-            lineColor="#B43232";
-            return lineColor;
-        })
-        .style("pointer-events", "none")
-        .style("stroke-width",0.5)
-        .attr("marker-end", "url(#resolved)" );
-
-    var edges_text = svg.append("g").selectAll(".edgelabel")
-    .data(force.links())
-    .enter()
-    .append("text")
-    .style("pointer-events", "none")
-    .attr({  'class':'edgelabel',
-                'id':function(d,i){return 'edgepath'+i;},
-                'dx':80,
-                'dy':0
-                });
-
-    edges_text.append('textPath')
-    .attr('xlink:href',function(d,i) {return '#edgepath'+i})
-    .style("pointer-events", "none")
-    .text(function(d){return d.rela;});
-
-    var circle = svg.append("g").selectAll("circle")
-    .data(force.nodes())
-    .enter().append("circle")
-    .style("fill", function(node) {
-        return "#F9EBF9";
-    })
-    .style('stroke', function(node) { 
-        return "#A254A2";
-    })
-    .attr("r", 28)
-    .on("click", function(node) {
-        edges_line.style("stroke-width", function(line) {
-            if (line.source.name == node.name || line.target.name == node.name) {
-                return 4;
-            } else {
-                return 0.5;
+        @media screen and (max-width: 400px) {
+            .navbar a {
+                float: none;
+                width: 100%;
             }
-        });
-    })
-    .on("dblclick", function(node) {
-        jumpUrl(node.name); // 双击后执行跳转
-    })
-    // .on("mousedown", function(node) {
-    //     var LONG_PRESS_TIME = 500;
-    //     // 开始长按计时
-    //     longPressTimer = setTimeout(function() {
-    //         jumpUrl(node.name);  // 长按后执行跳转
-    //     }, LONG_PRESS_TIME);
-    // })
-    // .on("mouseup mouseleave", function() {
-    //     // 取消计时
-    //     clearTimeout(longPressTimer);
-    // })
-    .call(force.drag);
+        }
+    </style>
+</head>
+<body>
 
-    var text = svg.append("g").selectAll("text")
-        .data(force.nodes())
-        .enter()
-        .append("text")
-        .attr("dy", ".35em")  
-        .attr("text-anchor", "middle")
-        .style('fill',function(node){
-            var color;
-            var link=links[node.index];
-            color="#A254A2";
-            return color;
-        }).attr('x',function(d){
-            var re_en = /[a-zA-Z]+/g;
-            if(d.name.match(re_en)){
-                d3.select(this).append('tspan')
-                .attr('x',0)
-                .attr('y',2)
-                .text(function(){return d.name;});
-            }
-            
-            else if(d.name.length<=4){
-                d3.select(this).append('tspan')
-                .attr('x',0)
-                .attr('y',2)
-                .text(function(){return d.name;});
-            }else{
-                var top=d.name.substring(0,4);
-                var bot=d.name.substring(4,d.name.length);
+<div class="header">
+    <h1>水浒传学习成果展示</h1>
+    <p>初三14班</p>
+</div>
 
-                d3.select(this).text(function(){return '';});
+<div class="navbar">
+    <a href="relation.html">水浒人物关系图</a>
+    <a href="#">所有页面</a>
+    <a href="#" class="right">登录</a>
+</div>
 
-                d3.select(this).append('tspan')
-                    .attr('x',0)
-                    .attr('y',-7)
-                    .text(function(){return top;});
+<div class="row">
+    <div class="side">
+        <h2>搜索</h2>
+        <input type="text" id="searchInput" placeholder="请输入搜索内容" style="width: 80%; padding: 10px; margin: 10px 0;">
+        <button id="searchButton" style="padding: 10px;">搜索</button>
+        <div class="fakeimg" style="height:60px">搜索相关人物介绍</div>
+    </div>
+    <div class="main">
+        <h2>由张蕴峰设计制作并开发</h2>
+        <p>特别感谢：李永嘉</p>
+    </div>
+</div>
 
-                d3.select(this).append('tspan')
-                    .attr('x',0)
-                    .attr('y',10)
-                    .text(function(){return bot;});
-            }
-        });
+<div class="footer">
+    <h2>其它功请等待开发</h2>
+</div>
 
-    function tick() {
-    circle.attr("transform", transform1);
-    text.attr("transform", transform2);
+<script>
 
-    edges_line.attr('d', function(d) { 
-        var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
-        return path;
-    });  
-        
-    edges_text.attr('transform',function(d,i){
-            if (d.target.x<d.source.x){
-                bbox = this.getBBox();
-                rx = bbox.x+bbox.width/2;
-                ry = bbox.y+bbox.height/2;
-                return 'rotate(180 '+rx+' '+ry+')';
-            }
-            else {
-                return 'rotate(0)';
-            }
-    });
+
+    let searchHistory = [];
+    
+    function search(imput){
+        localStorage.setItem('id', imput);
+        location.assign("search.html");
     }
 
-    function linkArc(d) {
-    return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y
+    function handleSearch() {
+        const searchInput = document.getElementById('searchInput');
+        const inputText = searchInput.value;
+        if (inputText) {
+            searchHistory.push(inputText);
+            console.log('搜索历史:', searchHistory);
+            search(inputText);
+            // alert('已保存搜索内容: ' + inputText);
+            searchInput.value = '';
+        } else {
+            alert('请输入搜索内容!');
+        }
     }
 
-    function transform1(d) {
-    return "translate(" + d.x + "," + d.y + ")";
-    }
-    function transform2(d) {
-        return "translate(" + (d.x) + "," + d.y + ")";
-    }
-});
-
+    document.getElementById('searchButton').addEventListener('click', handleSearch);
 </script>
+
+</body>
+</html>

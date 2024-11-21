@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>搜索结果</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+        h1 {
+            color: #333;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .result-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            cursor: pointer; /* 指示结果项可点击 */
+        }
+        .result-item:hover {
+            background-color: #f0f0f0; /* 鼠标悬停时给结果项添加些许反馈 */
+        }
+        .result-item h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+        .result-item p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<script>
+
+    function getJsonText(jsonFiles) {
+    return Promise.all(jsonFiles.map(file => fetch(file).then(response => response.json())))
+        .then(data => [].concat(...data));
+    }
+
+    const query = localStorage.getItem('id');
+
+    getJsonText(["url.json"]).then(fakeDatabase => {
+                // 模拟搜索结果数据库
+        // [
+        //     { title: '1', description: '###' },
+        //     { title: '2', description: '###' },
+        //     { title: '21', description: '###' },
+        //     { title: '100', description: '###' },
+        //     { title: '0', description: '###' },
+        //     { title: '9', description: '###' }
+        // ];
+
+        // 简单的相似度计算函数
+        function getSimilarityScore(itemTitle, query) {
+            const lowerTitle = itemTitle.toLowerCase();
+            const lowerQuery = query.toLowerCase();
+            if (lowerTitle.includes(lowerQuery)) {
+                return lowerQuery.length / lowerTitle.length;  // 简单的相似度比例
+            }
+            return 0;
+        }
+
+        // 获取搜索结果并按相关性排序
+        function getSearchResults(query) {
+            return fakeDatabase
+                .map(item => ({
+                    ...item,
+                    score: getSimilarityScore(item.name, query)
+                }))
+                .filter(item => item.score > 0)  // 只保留相关结果
+                .sort((a, b) => b.score - a.score);  // 按分数降序排列
+        }
+
+        // 回调函数
+        function handleResultClick(title) {
+            console.log(fakeDatabase);
+            window.alert(`查看关于 ${title} 的介绍页面`);
+            for(const i of fakeDatabase){
+                if(i.name === title){
+                    location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/" + i.url);
+                }
+            }
+            // 在这里可以添加其他需要执行的操作
+        }
+
+        const results = getSearchResults(query);
+        const resultsContainer = document.createElement('div');
+        resultsContainer.classList.add('results');
+
+        if (results.length > 0) {
+            results.forEach(result => {
+                const resultItem = document.createElement('div');
+                resultItem.classList.add('result-item');
+                resultItem.innerHTML = `<h2>${result.name}</h2><p>${result.description}</p>`;
+
+                // 添加点击事件
+                resultItem.addEventListener('click', () => handleResultClick(result.name));
+
+                resultsContainer.appendChild(resultItem);
+            });
+        } else {
+            resultsContainer.innerHTML = '<p>未找到相关结果。</p>';
+        }
+
+        document.body.appendChild(resultsContainer);
+    });
+
+</script>
+
+</body>
+</html>

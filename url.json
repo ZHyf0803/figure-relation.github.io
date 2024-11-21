@@ -1,6 +1,6 @@
 [
-    {"name":"宋江","url":"song-jiang.html"},
-    {"name":"卢俊义","url":"lu-jun-yi.html"},
-    {"name":"李逵","url":"li-kui.html"},
-    {"name":"戴宗","url":"dai-zong.html"}
+    {"name":"宋江","url":"song-jiang.html","description": "###"},
+    {"name":"卢俊义","url":"lu-jun-yi.html","description": "###"},
+    {"name":"李逵","url":"li-kui.html","description": "###"},
+    {"name":"戴宗","url":"dai-zong.html","description": "###"}
 ]

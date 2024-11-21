@@ -1,6 +1,12 @@
 [
     {"name":"宋江","url":"song-jiang.html","description": "###"},
+    {"name":"柴进","url":"chai-jin.html","description": "###"},
     {"name":"卢俊义","url":"lu-jun-yi.html","description": "###"},
+    {"name":"林冲","url":"lin-chong.html","description": "###"},
+    {"name":"武松","url":"wu-song.html","description": "###"},
+    {"name":"阎婆惜","url":"yan-po-xi.html","description": "###"},
+    {"name":"秦明","url":"qin-ming.html","description": "###"},
     {"name":"李逵","url":"li-kui.html","description": "###"},
+    {"name":"鲁智深","url":"lu-zhi-shen.html","description": "###"},
     {"name":"戴宗","url":"dai-zong.html","description": "###"}
 ]

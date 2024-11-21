@@ -1,1 +1,89 @@
 <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人物页面预览</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f8f8f8;
+        }
+        h1 {
+            color: #333;
+        }
+        .results {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap; /* 允许换行 */
+        }
+        .result-item {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px; /* 圆角效果 */
+            width: calc(25% - 20px); /* 自适应宽度，保持响应式 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+            cursor: pointer; /* 指示结果项可点击 */
+        }
+        .result-item:hover {
+            background-color: #f0f0f0; /* 鼠标悬停时反馈效果 */
+        }
+        .result-item h2 {
+            margin: 0;
+            font-size: 1.2em;
+            overflow: hidden; /* 避免标题溢出 */
+            text-overflow: ellipsis; /* 省略溢出部分 */
+            white-space: nowrap; /* 不换行 */
+        }
+        .result-item p {
+            margin: 5px 0;
+            font-size: 0.9em; /* 减小描述字体大小 */
+        }
+    </style>
+</head>
+<body>
+
+<h1>人物页面预览</h1>
+
+<script>
+    function getJsonText(jsonFiles) {
+        return Promise.all(jsonFiles.map(file => fetch(file).then(response => response.json())))
+            .then(data => [].concat(...data));
+    }
+
+    getJsonText(["url.json"]).then(fakeDatabase => {
+        // 显示所有页面的预览
+        const resultsContainer = document.createElement('div');
+        resultsContainer.classList.add('results');
+
+        // 创建结果项
+        fakeDatabase.forEach(item => {
+            const resultItem = document.createElement('div');
+            resultItem.classList.add('result-item');
+            resultItem.innerHTML = `<h2>${item.name}</h2><p>${item.description}</p>`;
+
+            // 添加点击事件
+            resultItem.addEventListener('click', () => {
+                window.location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/" + item.url); // 跳转到 URL
+            });
+
+            resultsContainer.appendChild(resultItem);
+        });
+
+        if (fakeDatabase.length === 0) {
+            resultsContainer.innerHTML = '<p>未找到相关结果。</p>';
+        }
+
+        document.body.appendChild(resultsContainer);
+    }).catch(error => {
+        console.error('获取数据失败:', error);
+    });
+
+</script>
+
+</body>
+</html>

@@ -14,7 +14,14 @@
     {"source": "李逵", "target": "柴进", "rela": "朋友", "type": "resolved"},
     {"source": "李逵", "target": "汤隆", "rela": "朋友", "type": "resolved"},
     {"source": "戴宗", "target": "萧让", "rela": "朋友", "type": "resolved"},
-    {"source": "鲁智深", "target": "武松", "rela": "朋友", "type": "resolved"},
-    {"source": "鲁智深", "target": "宋江", "rela": "同事", "type": "resolved"},
+    {"source": "花荣", "target": "武松", "rela": "朋友", "type": "resolved"},
+    {"source": "花荣", "target": "宋江", "rela": "同事", "type": "resolved"},
+    {"source": "解珍", "target": "宋江", "rela": "同事", "type": "resolved"},
+    {"source": "韩滔", "target": "宋江", "rela": "同事", "type": "resolved"},
+    {"source": "关胜", "target": "宋江", "rela": "同事", "type": "resolved"},
+    {"source": "顾大嫂", "target": "宋江", "rela": "同事", "type": "resolved"},
+    {"source": "施恩", "target": "宋江", "rela": "同事", "type": "resolved"},
+    {"source": "戴宗", "target": "宋江", "rela": "同事", "type": "resolved"},
+    {"source": "柴进", "target": "宋江", "rela": "同事", "type": "resolved"},
     {"source": "戴宗", "target": "杨林", "rela": "朋友", "type": "resolved"}
 ]

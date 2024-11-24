@@ -1,13 +1,46 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
 <title>人物关系图</title>
-<style>.link {  fill: none;  stroke: #666;  stroke-width: 1px;}#licensing {  fill: green;}.link.licensing {  stroke: green;}.link.resolved {  stroke-dasharray: 0,2 1;}circle {  fill: #ccc;  stroke: #333;  stroke-width: 1px;}text {  font: 10px Microsoft YaHei;  pointer-events: none;  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;}.linetext {    font-size: 12px Microsoft YaHei;}</style>
+<style>
+    body {
+        background-image: url('./img/bg.png'); 
+        background-size: cover; /* 背景图尺寸适应整个页面 */
+    }
+    .link {
+        fill: none;  
+        stroke: #666; 
+        stroke-width: 1px;
+    }
+    #licensing {  
+        fill: green;
+    }
+    .link.licensing {  
+        stroke: green;
+    }
+    .link.resolved {  
+        stroke-dasharray: 0, 2 1;
+    }
+    circle {
+        fill: #ccc;
+        stroke: #333;
+        stroke-width: 1px;
+    }
+    text {  
+        font: 10px Microsoft YaHei;  
+        pointer-events: none;  
+        text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
+    }
+    .linetext {    
+        font-size: 12px Microsoft YaHei;
+    }
+</style>
 <body>
 <script src="https://d3js.org/d3.v3.min.js"></script>
 <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
 <script>
 
 const jsonFilesName = ["relation.json"];
+const rootNodeName = "宋江"; // 设置根节点名称
 
 function getJsonText(jsonFiles) {
     return Promise.all(jsonFiles.map(file => fetch(file).then(response => response.json())))
@@ -15,15 +48,23 @@ function getJsonText(jsonFiles) {
 }
 
 function jumpUrl(nodeName) {
-    getJsonText(["url.json"]).then(urls => {  // 确保这里传递的是数组
+    getJsonText(["url.json"]).then(urls => {
         for (const urlObj of urls) {
             if (urlObj.name === nodeName) {
-                window.alert("查看"+ urlObj.name + "的介绍");
-                location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/" + urlObj.url);
-                return; // 找到后返回
+                window.alert("查看" + urlObj.name + "的介绍");
+                localStorage.setItem('url', urlObj.url);
+                location.assign("./html/introduction.html");
+                return;
             }
         }
-        window.alert("暂时没有关于"+ nodeName + "的介绍");
+        for (const urlObj of urls) {
+            if(urlObj.name === (nodeName + "旧介绍页面")){
+                window.alert("查看" + urlObj.name + "的介绍");
+                location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/old/" + urlObj.url);
+                return;
+            }
+        }
+        window.alert("暂时没有关于" + nodeName + "的介绍");
         console.log("未找到匹配的节点名称:", nodeName);
     }).catch(error => {
         console.error("获取 JSON 文件失败:", error);
@@ -37,175 +78,189 @@ getJsonText(jsonFilesName).then(links => {
         link.source = nodes[link.source] || (nodes[link.source] = { name: link.source });
         link.target = nodes[link.target] || (nodes[link.target] = { name: link.target });
     });
+
     var width = window.innerWidth - 20, height = window.innerHeight - 20;
-    var force = d3.layout.force()
-        .nodes(d3.values(nodes))
-        .links(links)
-        .size([width, height])
-        .linkDistance(100)
-        .charge(-1500)
-        .on("tick", tick)
-        .start();
+
+    // 添加缩放支持
+    var zoom = d3.behavior.zoom()
+        .scaleExtent([0.1, 10])
+        .on("zoom", function() {
+            svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+        });
 
     var svg = d3.select("body").append("svg")
         .attr("width", width)
         .attr("height", height)
+        .call(zoom)
+        .append("g"); // 创建一个 g 元素来包裹所有图形元素
 
-    var marker=
-        svg.append("marker")
+    var force = d3.layout.force()
+        .nodes(d3.values(nodes))
+        .links(links)
+        .size([width, height])
+        .linkDistance(150) // 增加节点之间连线的长度
+        .charge(-1500)
+        .on("tick", tick)
+        .start();
+
+    // 阻止右键菜单的默认行为
+    d3.select("body").on("contextmenu", function() {
+        d3.event.preventDefault();
+    });
+    var dragging = false;
+
+    // 右键按下事件
+    svg.on("mousedown", function() {
+        if (d3.event.button === 2) {
+            dragging = true;
+            d3.event.preventDefault();
+        }
+    })
+    .on("mousemove", function() {
+        if (dragging) {
+            var dx = d3.event.movementX;
+            var dy = d3.event.movementY;
+            var coords = d3.transform(svg.attr("transform"));
+            var newTranslate = [coords.translate[0] + dx, coords.translate[1] + dy];
+            svg.attr("transform", "translate(" + newTranslate + ")scale(" + coords.scale[0] + ")");
+        }
+    })
+    .on("mouseup", function() {
+        if (d3.event.button === 2) {
+            dragging = false;
+        }
+    });
+    var marker = svg.append("marker")
         .attr("id", "resolved")
-        .attr("markerUnits","userSpaceOnUse")
+        .attr("markerUnits", "userSpaceOnUse")
         .attr("viewBox", "0 -5 10 10")
-        .attr("refX",32)
+        .attr("refX", 32)
         .attr("refY", -1)
         .attr("markerWidth", 12)
         .attr("markerHeight", 12)
         .attr("orient", "auto")
-        .attr("stroke-width",2)
+        .attr("stroke-width", 2)
         .append("path")
         .attr("d", "M0,-5L10,0L0,5")
-        .attr('fill','#000000');
+        .attr('fill', '#000000');
 
     var edges_line = svg.selectAll(".edgepath")
         .data(force.links())
         .enter()
         .append("path")
         .attr({
-            'd': function(d) {return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y},
-            'class':'edgepath',
-            'id':function(d,i) {return 'edgepath'+i;}})
-        .style("stroke",function(d){
-            var lineColor;
-            lineColor="#B43232";
-            return lineColor;
+            'd': function(d) { return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y; },
+            'class': 'edgepath',
+            'id': function(d, i) { return 'edgepath' + i; }
+        })
+        .style("stroke", function(d) {
+            return "#B43232";
         })
         .style("pointer-events", "none")
-        .style("stroke-width",0.5)
-        .attr("marker-end", "url(#resolved)" );
+        .style("stroke-width", 0.5)
+        .attr("marker-end", "url(#resolved)");
 
     var edges_text = svg.append("g").selectAll(".edgelabel")
-    .data(force.links())
-    .enter()
-    .append("text")
-    .style("pointer-events", "none")
-    .attr({  'class':'edgelabel',
-                'id':function(d,i){return 'edgepath'+i;},
-                'dx':80,
-                'dy':0
-                });
+        .data(force.links())
+        .enter()
+        .append("text")
+        .style("pointer-events", "none")
+        .attr({
+            'class': 'edgelabel',
+            'id': function(d, i) { return 'edgepath' + i; },
+            'dx': 80,
+            'dy': 0
+        });
 
     edges_text.append('textPath')
-    .attr('xlink:href',function(d,i) {return '#edgepath'+i})
-    .style("pointer-events", "none")
-    .text(function(d){return d.rela;});
+        .attr('xlink:href', function(d, i) { return '#edgepath' + i; })
+        .style("pointer-events", "none")
+        .text(function(d) { return d.rela; });
 
     var circle = svg.append("g").selectAll("circle")
-    .data(force.nodes())
-    .enter().append("circle")
-    .style("fill", function(node) {
-        return "#F9EBF9";
-    })
-    .style('stroke', function(node) { 
-        return "#A254A2";
-    })
-    .attr("r", 28)
-    .on("click", function(node) {
-        edges_line.style("stroke-width", function(line) {
-            if (line.source.name == node.name || line.target.name == node.name) {
-                return 4;
-            } else {
-                return 0.5;
-            }
-        });
-    })
-    .on("dblclick", function(node) {
-        jumpUrl(node.name); // 双击后执行跳转
-    })
-    // .on("mousedown", function(node) {
-    //     var LONG_PRESS_TIME = 500;
-    //     // 开始长按计时
-    //     longPressTimer = setTimeout(function() {
-    //         jumpUrl(node.name);  // 长按后执行跳转
-    //     }, LONG_PRESS_TIME);
-    // })
-    // .on("mouseup mouseleave", function() {
-    //     // 取消计时
-    //     clearTimeout(longPressTimer);
-    // })
-    .call(force.drag);
+        .data(force.nodes())
+        .enter().append("circle")
+        .style("fill", function(node) {
+            return (node.name === rootNodeName) ? "#F9EBF9" : "#D9D9D9"; // 根节点颜色设置
+        })
+        .style('stroke', function(node) {
+            return "#A254A2";
+        })
+        .attr("r", function(node) {
+            return (node.name === rootNodeName) ? 40 : 28; // 设置根节点的半径
+        })
+        .on("click", function(node) {
+            edges_line.style("stroke-width", function(line) {
+                if (line.source.name == node.name || line.target.name == node.name) {
+                    return 4;
+                } else {
+                    return 0.5;
+                }
+            });
+        })
+        .on("dblclick", function(node) {
+            jumpUrl(node.name); // 双击后执行跳转
+        })
+        .call(force.drag);
 
     var text = svg.append("g").selectAll("text")
         .data(force.nodes())
         .enter()
         .append("text")
-        .attr("dy", ".35em")  
+        .attr("dy", ".35em")
         .attr("text-anchor", "middle")
-        .style('fill',function(node){
-            var color;
-            var link=links[node.index];
-            color="#A254A2";
-            return color;
-        }).attr('x',function(d){
+        .style('fill', function(node) {
+            return "#A254A2";
+        }).attr('x', function(d) {
             var re_en = /[a-zA-Z]+/g;
-            if(d.name.match(re_en)){
+            if (d.name.match(re_en)) {
                 d3.select(this).append('tspan')
-                .attr('x',0)
-                .attr('y',2)
-                .text(function(){return d.name;});
-            }
-            
-            else if(d.name.length<=4){
+                    .attr('x', 0)
+                    .attr('y', 2)
+                    .text(function() { return d.name; });
+            } else if (d.name.length <= 4) {
                 d3.select(this).append('tspan')
-                .attr('x',0)
-                .attr('y',2)
-                .text(function(){return d.name;});
-            }else{
-                var top=d.name.substring(0,4);
-                var bot=d.name.substring(4,d.name.length);
-
-                d3.select(this).text(function(){return '';});
-
+                    .attr('x', 0)
+                    .attr('y', 2)
+                    .text(function() { return d.name; });
+            } else {
+                var top = d.name.substring(0, 4);
+                var bot = d.name.substring(4, d.name.length);
+                d3.select(this).text(function() { return ''; });
                 d3.select(this).append('tspan')
-                    .attr('x',0)
-                    .attr('y',-7)
-                    .text(function(){return top;});
-
+                    .attr('x', 0)
+                    .attr('y', -7)
+                    .text(function() { return top; });
                 d3.select(this).append('tspan')
-                    .attr('x',0)
-                    .attr('y',10)
-                    .text(function(){return bot;});
+                    .attr('x', 0)
+                    .attr('y', 10)
+                    .text(function() { return bot; });
             }
         });
 
     function tick() {
-    circle.attr("transform", transform1);
-    text.attr("transform", transform2);
+        circle.attr("transform", transform1);
+        text.attr("transform", transform2);
+        edges_line.attr('d', function(d) {
+            return 'M ' + d.source.x + ' ' + d.source.y + ' L ' + d.target.x + ' ' + d.target.y;
+        });
 
-    edges_line.attr('d', function(d) { 
-        var path='M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y;
-        return path;
-    });  
-        
-    edges_text.attr('transform',function(d,i){
-            if (d.target.x<d.source.x){
-                bbox = this.getBBox();
-                rx = bbox.x+bbox.width/2;
-                ry = bbox.y+bbox.height/2;
-                return 'rotate(180 '+rx+' '+ry+')';
-            }
-            else {
+        edges_text.attr('transform', function(d, i) {
+            if (d.target.x < d.source.x) {
+                var bbox = this.getBBox();
+                var rx = bbox.x + bbox.width / 2;
+                var ry = bbox.y + bbox.height / 2;
+                return 'rotate(180 ' + rx + ' ' + ry + ')';
+            } else {
                 return 'rotate(0)';
             }
-    });
-    }
-
-    function linkArc(d) {
-    return 'M '+d.source.x+' '+d.source.y+' L '+ d.target.x +' '+d.target.y
+        });
     }
 
     function transform1(d) {
-    return "translate(" + d.x + "," + d.y + ")";
+        return "translate(" + d.x + "," + d.y + ")";
     }
+
     function transform2(d) {
         return "translate(" + (d.x) + "," + d.y + ")";
     }

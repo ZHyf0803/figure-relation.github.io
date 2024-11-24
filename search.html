@@ -6,6 +6,7 @@
     <title>搜索结果</title>
     <style>
         body {
+            background-image: url('./img/bg.png');
             font-family: Arial, sans-serif;
             margin: 20px;
             padding: 20px;
@@ -18,8 +19,9 @@
             margin-top: 20px;
         }
         .result-item {
-            background-color: #fff;
-            border: 1px solid #ddd;
+            background-color:  #66666666;;
+            border: 1px solid #7c7c7c3c;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             padding: 15px;
             margin-bottom: 10px;
             border-radius: 5px;
@@ -48,7 +50,7 @@
 
     const query = localStorage.getItem('id');
 
-    if(query === "芙宁娜") location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/fu-ning-na.html");
+    if(query === "芙宁娜") location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/old/fu-ning-na.html");
 
     getJsonText(["url.json"]).then(fakeDatabase => {
                 // 模拟搜索结果数据库
@@ -88,7 +90,14 @@
             window.alert(`查看关于 ${title} 的介绍页面`);
             for(const i of fakeDatabase){
                 if(i.name === title){
-                    location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/" + i.url);
+                    if(i.history !== "no")
+                        location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/old/" + i.url);
+                    else{
+                        localStorage.setItem('url', i.url);
+                        location.assign("./html/introduction.html");
+                        //location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/introduction.html");
+                    }
+
                 }
             }
             // 在这里可以添加其他需要执行的操作

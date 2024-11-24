@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>人物页面预览</title>
+    <title>所有页面预览</title>
     <style>
         body {
+            background-image: url('./img/bg.png');
             font-family: Arial, sans-serif;
             margin: 20px;
             padding: 20px;
@@ -20,17 +21,17 @@
             flex-wrap: wrap; /* 允许换行 */
         }
         .result-item {
-            background-color: #fff;
-            border: 1px solid #ddd;
+            background-color: #67676766;
+            border: 1px solid #7c7c7c3c;
             padding: 15px;
             margin: 10px;
             border-radius: 10px; /* 圆角效果 */
             width: calc(25% - 20px); /* 自适应宽度，保持响应式 */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* 添加阴影效果 */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 添加阴影效果 */
             cursor: pointer; /* 指示结果项可点击 */
         }
         .result-item:hover {
-            background-color: #f0f0f0; /* 鼠标悬停时反馈效果 */
+            background-color: #aaaaaac1; /* 鼠标悬停时反馈效果 */
         }
         .result-item h2 {
             margin: 0;
@@ -65,10 +66,15 @@
             const resultItem = document.createElement('div');
             resultItem.classList.add('result-item');
             resultItem.innerHTML = `<h2>${item.name}</h2><p>${item.description}</p>`;
-
+            
             // 添加点击事件
             resultItem.addEventListener('click', () => {
-                window.location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/" + item.url); // 跳转到 URL
+                if(item.history !=="no"){
+                    window.location.assign("https://zhyf0803.github.io/figure-relation.github.io/html/old/" + item.url); // 跳转到 URL
+                }else{
+                    localStorage.setItem('url', item.url);
+                    location.assign("./html/introduction.html");
+                }
             });
 
             resultsContainer.appendChild(resultItem);

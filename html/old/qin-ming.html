@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>###</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+    box-sizing: border-box;
+}
+
+/* body 样式 */
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+/* 标题 */
+.header {
+    padding: 8px;
+    text-align: center;
+    background: #c9c91b;
+    color: white;
+}
+
+/* 标题字体加大 */
+.header h1 {
+    font-size: 40px;
+}
+
+/* 导航 */
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* 导航栏样式 */
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+/* 右侧链接*/
+.navbar a.right {
+    float: right;
+}
+
+/* 鼠标移动到链接的颜色 */
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* 列容器 */
+.row {  
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+}
+
+/* 创建两个列 */
+/* 边栏 */
+.side {
+    -ms-flex: 30%; /* IE10 */
+    flex: 30%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+/* 主要的内容区域 */
+.main {   
+    -ms-flex: 70%; /* IE10 */
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+}
+
+/* 测试图片 */
+.fakeimg {
+    background-color: #aaa;
+    width: 200px;
+    padding: 20px;
+}
+
+/* 底部 */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 700px 时, 让两栏上下堆叠显示 */
+@media screen and (max-width: 700px) {
+    .row {   
+        flex-direction: column;
+    }
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 400px 时, 让导航栏目上下堆叠显示 */
+@media screen and (max-width: 400px) {
+    .navbar a {
+        float: none;
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>秦明</h1>
+  <p>人物介绍</p>
+</div>
+
+<div class="navbar">
+  <a href="https://www.bilibili.com/video/BV1UT42167xb/?spm_id_from=333.337.search-card.all.click" class="right"></a>
+</div>
+
+  <div class="main">
+      <h5>人物图片</h5>
+      <img class="fakeimg" style="height:200px;" src="../png/qin-ming.png">
+      <h5>人物评价</h5>
+
+      <p>
+        秦明，绰号“霹雳火”，是《水浒传》中著名的好汉之一。他原本是一个的官员，走上了反叛的道路。他的背景使他在梁山好汉中具有一定的特殊地位，既有官员的身份背景，也有忠义的情怀。
+        秦明的性格特征主要表现在忠诚正直和刚毅果断上。他非常讲究义气，对于朋友毫不犹豫，敢于为他人出头。他是一位战斗力极强的角色，对抗敌人时表现出卓越的勇气和能力。
+        秦明在被冤屈后，选择加入了梁山，与其他好汉一起反抗腐败的官僚体制。他的经历代表了许多因为社会不公而选择反抗的人。加入梁山后，秦明多次参与与官军的激烈斗争，展现出他出色的战斗技能。秦明更倾向于展现对团队的忠诚和对集体利益的重视。他不单单是个人英雄主义的体现，还强调了团队合作的力量。
+        秦明是《水浒传》中一个复杂而深刻的角色，他的故事不仅体现了忠诚与正义的价值观，还反映了人们在面对社会不公和个人困境时的选择与反应。通过他的经历，我们可以看到，真正的英雄不仅仅依靠武力和勇气去解决问题，更在于他们内心的道德信念和对友谊的坚守。
+        总的来说，秦明的角色提醒我们，生活中的冲突与挑战需要我们以正直和勇敢的态度去应对，提升自身的道德修养，同时也要在团队中发挥积极的作用。
+      </p>
+      <!-- <h5>副标题</h5>
+       <div class="fakeimg" style="height:200px;">图像</div>
+      <p>一些文本..</p>
+      <p>####</p> -->
+  </div>
+</div>
+
+<div class="footer">
+  <h2>人物评价：叶与晨</h2>
+</div>
+
+</body>
+</html>

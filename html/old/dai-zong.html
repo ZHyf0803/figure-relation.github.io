@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>###</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+    box-sizing: border-box;
+}
+
+/* body 样式 */
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+/* 标题 */
+.header {
+    padding: 8px;
+    text-align: center;
+    background: #c9c91b;
+    color: white;
+}
+
+/* 标题字体加大 */
+.header h1 {
+    font-size: 40px;
+}
+
+/* 导航 */
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* 导航栏样式 */
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+/* 右侧链接*/
+.navbar a.right {
+    float: right;
+}
+
+/* 鼠标移动到链接的颜色 */
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* 列容器 */
+.row {  
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+}
+
+/* 创建两个列 */
+/* 边栏 */
+.side {
+    -ms-flex: 30%; /* IE10 */
+    flex: 30%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+/* 主要的内容区域 */
+.main {   
+    -ms-flex: 70%; /* IE10 */
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+}
+
+/* 测试图片 */
+.fakeimg {
+    background-color: #aaa;
+    width: 200px;
+    padding: 20px;
+}
+
+/* 底部 */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 700px 时, 让两栏上下堆叠显示 */
+@media screen and (max-width: 700px) {
+    .row {   
+        flex-direction: column;
+    }
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 400px 时, 让导航栏目上下堆叠显示 */
+@media screen and (max-width: 400px) {
+    .navbar a {
+        float: none;
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>戴宗</h1>
+  <p>人物介绍</p>
+</div>
+
+<div class="navbar">
+  <a href="https://www.bilibili.com/video/BV1UT42167xb/?spm_id_from=333.337.search-card.all.click" class="right"></a>
+</div>
+
+  <div class="main">
+      <h5>人物图片</h5>
+      <img class="fakeimg" style="height:200px;" src="../png/dai-zong.png">
+      <h5>人物评价</h5>
+
+      <p>
+        戴宗，绰号“神行太保”，是《水浒传》中一位极具特色的人物。他最初是一名普通的书生，因其聪明才智和非凡的速度而被梁山好汉所重视。他拥有极高的智谋与机敏。
+        戴宗的困境主要体现在他身处的社会环境和对忠义的追求上。作为一个读书人，他在被迫加入梁山之后，他忠于兄弟,并帮助兄弟们解决困难。
+        戴宗的经历充满了波澜起伏，尤其是在他加入梁山之后。一个重要的节点是他成功地为梁山传递情报，帮助兄弟们在多次战斗中取得胜利。他的“神行”能力使他成为梁山的情报员和联络者，极大地增强了梁山的战斗力
+        戴宗在《水浒传》中不仅是一个具备超凡能力的角色，更是一个在忠义与智慧之间不断挣扎的人物。他的经历和性格深刻地反映了人性的复杂与美好，值得我们深入思考与学习。
+      </p>
+      <!-- <h5>副标题</h5>
+       <div class="fakeimg" style="height:200px;">图像</div>
+      <p>一些文本..</p>
+      <p>####</p> -->
+  </div>
+</div>
+
+<div class="footer">
+  <h2>人物评价：叶与晨</h2>
+</div>
+
+</body>
+</html>

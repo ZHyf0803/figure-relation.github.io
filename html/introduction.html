@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>人物介绍</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 这里是 CSS 样式 */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('../img/bg.png');
+            background-size: cover;
+            color: white;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .tabs {
+            border-radius: 5px;
+            display: flex;
+            background: rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s ease;
+        }
+
+        .tab {
+            padding: 15px 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .tab:hover {
+            background: rgba(190, 189, 189, 0.2);
+        }
+
+        .content {
+            margin-top: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 20px;
+            border-radius: 20px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center; 
+            margin-bottom: 20px; 
+        }
+
+        .profile-image {
+            width: 150px;
+            border-radius: 5%;
+            margin-right: 20px;
+        }
+
+        .profile-name {
+            padding: 1px;
+            font-size: 70px;
+            color: rgb(82, 81, 81);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="tabs" onmouseover="expandTabs()" onmouseleave="collapseTabs()">
+            <div class="tab" onclick="showContent('info')">绰号、身份与上梁山之路</div>
+            <div class="tab" onclick="showContent('language')">典型语言</div>
+            <div class="tab" onclick="showContent('experience')">人物经历与人物形象</div>
+            <div class="tab" onclick="showContent('relation')">人物关系</div>
+        </div>
+
+        <div class="profile">
+            <img id="profile-picture" class="profile-image" src="" alt="人物图片" />
+            <h1 id="name" class="profile-name"></h1>
+        </div>
+
+        <div class="content">
+            <div class="description" id="description"></div>
+        </div>
+    </div>
+
+    <script>
+        let contentData; 
+
+        function getJsonText(jsonFiles) {
+            return Promise.all(jsonFiles.map(file => fetch(file).then(response => response.json())))
+                .then(data => {
+                    if (data && data.length > 0) {
+                        contentData = data[0]; 
+                        console.log("加载的数据:", contentData);
+                        showContent('info'); // 默认显示 'info' 内容
+                    } else {
+                        console.error("未能加载有效的数据");
+                    }
+                }).catch(error => {
+                    console.error("加载数据时发生错误:", error);
+                });
+        }
+
+        function showContent(tab) {
+            const nameElement = document.getElementById('name');
+            const descriptionElement = document.getElementById('description');
+            const pictureElement = document.getElementById('profile-picture');
+
+            if (contentData && contentData.name && contentData.picture && contentData[tab]) {
+                nameElement.textContent = contentData.name; 
+                pictureElement.src = contentData.picture; 
+                descriptionElement.innerHTML = `<h2>${contentData[tab].title}</h2><p>${contentData[tab].description}</p>`;
+            } else {
+                console.error(`没有找到 tab: ${tab} 或者数据未加载`);
+                descriptionElement.innerHTML = "<p>内容加载失败，请稍后再试。</p>";
+            }
+        }
+
+        function expandTabs() {
+            const tabs = document.querySelector('.tabs');
+            tabs.style.transform = 'translateY(0)'; 
+        }
+
+        function collapseTabs() {
+            const tabs = document.querySelector('.tabs');
+            tabs.style.transform = 'translateY(-80%)'; 
+        }
+
+        // Call the data fetch function
+        const jsonFilesName = localStorage.getItem('url');
+        getJsonText(["./json/" + jsonFilesName]);
+    </script>
+</body>
+</html>

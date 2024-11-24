@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>###</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+    box-sizing: border-box;
+}
+
+/* body 样式 */
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+/* 标题 */
+.header {
+    padding: 8px;
+    text-align: center;
+    background: #c9c91b;
+    color: white;
+}
+
+/* 标题字体加大 */
+.header h1 {
+    font-size: 40px;
+}
+
+/* 导航 */
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* 导航栏样式 */
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+/* 右侧链接*/
+.navbar a.right {
+    float: right;
+}
+
+/* 鼠标移动到链接的颜色 */
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* 列容器 */
+.row {  
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+}
+
+/* 创建两个列 */
+/* 边栏 */
+.side {
+    -ms-flex: 30%; /* IE10 */
+    flex: 30%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+/* 主要的内容区域 */
+.main {   
+    -ms-flex: 70%; /* IE10 */
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+}
+
+/* 测试图片 */
+.fakeimg {
+    background-color: #aaa;
+    width: 200px;
+    padding: 20px;
+}
+
+/* 底部 */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 700px 时, 让两栏上下堆叠显示 */
+@media screen and (max-width: 700px) {
+    .row {   
+        flex-direction: column;
+    }
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 400px 时, 让导航栏目上下堆叠显示 */
+@media screen and (max-width: 400px) {
+    .navbar a {
+        float: none;
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>鲁智深</h1>
+  <p>人物介绍</p>
+</div>
+
+<div class="navbar">
+  <a href="https://www.bilibili.com/video/BV1UT42167xb/?spm_id_from=333.337.search-card.all.click" class="right"></a>
+</div>
+
+  <div class="main">
+      <h5>人物图片</h5>
+      <img class="fakeimg" style="height:200px;" src="../png/lu-zhi-shen.png">
+      <h5>人物评价</h5>
+
+      <p>
+        鲁智深，原名鲁达是《水浒传》中的主要人物。鲁智深音鉴证图，欺负金翠恩妇女三拳打死了镇关西，因此被官府追捕不是对逃亡途中，鲁智深在五台山削发为僧，改名鲁智深。但他忍受不了佛门的清规，屡次喝酒破戒。被长老派往东京相国寺。在途中，鲁智深路过桃花村，将强抢民女周通打了一顿。后来在瓦罐寺与史进联手除掉了生铁佛崔道成和道人丘小乙，并放火烧了瓦罐寺。大相国寺看守菜园期间，鲁智深因将偷菜的泼皮踢进了粪池，倒拔垂杨柳，威名远扬。鲁智深在野猪林救了被高俅陷害的林冲，并一路护送林冲到沧州。因高俅派人捉拿，鲁智深在二龙山落草，后投奔水泊梁山，成为步兵头领，在各种战斗中发挥重要的作用。宋江攻打方腊时，鲁智深在迷路后误打误撞擒了方腊，后在杭州六合寺圆寂。
+在很多人眼里，鲁智深或许只是一个嫉恶如仇的莽汉。例如鲁智深在酒楼中听到金氏妇女被恶霸镇关西欺压的遭遇后，决定出手相助资助，资助了金氏妇女逃离，随后来到正途的肉铺前挑衅，并最终三拳打死了郑屠，为民除害。但在同一情节中，我们还可以注意到一些细节：鲁智深在救助金翠莲父女时，不仅慷慨解囊，还详细询问了他们的姓名、住处和郑屠肉铺的地址。他虽然气愤难当，但能权衡利弊，首先确保金家父女安全脱身，并考虑到他们缺钱，将银子送给他们。为了防止店小二追赶，鲁智深一反常态，耐心地在店门口坐了两个时辰，直到金家父女走远才起身去找郑屠。在三拳打死镇关西后，为了脱身，他指着郑屠的尸体说“你诈死，洒家和你慢慢理会！”这种急中生智的行为，既麻痹了围观的人，也让他有机会脱身。这些情节充分展现了鲁智深虽然外表粗犷，但内心细腻，具有勇谋和智慧，能够在关键时刻展现出粗中有细的性格特点。
+在生活中，很多人忙碌于自己的工作，认为多一事不如少一事，对于不公平的行为坐视不管。鲁智深的这种精神，是多么难能可贵啊！
+鲁智深，他的名字如同他的形象，深刻而鲜明。他以豪迈的气概，细腻的心思，书写了一段段传奇。他，是梁山泊中的侠之大者，是水浒传中的义之典范。他的形象，成为后人传颂的佳话。
+      </p>
+      <!-- <h5>副标题</h5>
+       <div class="fakeimg" style="height:200px;">图像</div>
+      <p>一些文本..</p>
+      <p>####</p> -->
+  </div>
+</div>
+
+<div class="footer">
+  <h2>人物评价：韩百成</h2>
+</div>
+
+</body>
+</html>

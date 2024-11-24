@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>###</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+* {
+    box-sizing: border-box;
+}
+
+/* body 样式 */
+body {
+    font-family: Arial;
+    margin: 0;
+}
+
+/* 标题 */
+.header {
+    padding: 8px;
+    text-align: center;
+    background: #c9c91b;
+    color: white;
+}
+
+/* 标题字体加大 */
+.header h1 {
+    font-size: 40px;
+}
+
+/* 导航 */
+.navbar {
+    overflow: hidden;
+    background-color: #333;
+}
+
+/* 导航栏样式 */
+.navbar a {
+    float: left;
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 20px;
+    text-decoration: none;
+}
+
+/* 右侧链接*/
+.navbar a.right {
+    float: right;
+}
+
+/* 鼠标移动到链接的颜色 */
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* 列容器 */
+.row {  
+    display: -ms-flexbox; /* IE10 */
+    display: flex;
+    -ms-flex-wrap: wrap; /* IE10 */
+    flex-wrap: wrap;
+}
+
+/* 创建两个列 */
+/* 边栏 */
+.side {
+    -ms-flex: 30%; /* IE10 */
+    flex: 30%;
+    background-color: #f1f1f1;
+    padding: 20px;
+}
+
+/* 主要的内容区域 */
+.main {   
+    -ms-flex: 70%; /* IE10 */
+    flex: 70%;
+    background-color: white;
+    padding: 20px;
+}
+
+/* 测试图片 */
+.fakeimg {
+    background-color: #aaa;
+    width: 200px;
+    padding: 20px;
+}
+
+/* 底部 */
+.footer {
+    padding: 20px;
+    text-align: center;
+    background: #ddd;
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 700px 时, 让两栏上下堆叠显示 */
+@media screen and (max-width: 700px) {
+    .row {   
+        flex-direction: column;
+    }
+}
+
+/* 响应式布局 - 在屏幕设备宽度尺寸小于 400px 时, 让导航栏目上下堆叠显示 */
+@media screen and (max-width: 400px) {
+    .navbar a {
+        float: none;
+        width: 100%;
+    }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>柴进</h1>
+  <p>人物介绍</p>
+</div>
+
+<div class="navbar">
+  <a href="https://www.bilibili.com/video/BV1UT42167xb/?spm_id_from=333.337.search-card.all.click" class="right"></a>
+</div>
+
+  <div class="main">
+      <h5>人物图片</h5>
+      <img class="fakeimg" style="height:200px;" src="../png/chai-jin.png">
+      <h5>人物评价</h5>
+
+      <p>
+        柴进，绰号“小李广”，是《水浒传》中重要的角色之一。他出身于一个有钱人家，作为一名经济富裕的地主，他擅长于理财和经营，因此在社会上有相当的地位和影响力。然而，柴进的富有并没有使他迷失自我，相反，他在内心深处渴望的是一种对公正与道义的追求，这使得他成为梁山的一位重要成员。
+柴进性格豪爽、宽厚，对待朋友忠诚。他在小说中表现出强烈的侠义精神，乐于义举，且对穷苦百姓有着深切的同情。尽管身处上层社会，他并未完全被权贵世界所同化，反而常常在危急关头表现出对正义的坚定立场。这种既有豪门气派又有侠义风范的性格，使得他深受梁山好汉的信任与尊敬。
+他的形象提醒我们，真正的英雄不仅仅是武力的强者，更是在道德与精神上勇于担当的人。柴进的故事让我们相信，财富与地位并不能动摇一个人的内心信念，真正的力量来源于我们对公正的执着追求和对社会责任的担当。
+      </p>
+      <!-- <h5>副标题</h5>
+       <div class="fakeimg" style="height:200px;">图像</div>
+      <p>一些文本..</p>
+      <p>####</p> -->
+  </div>
+</div>
+
+<div class="footer">
+  <h2>人物评价：叶与晨</h2>
+</div>
+
+</body>
+</html>
